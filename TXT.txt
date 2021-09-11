@@ -1,0 +1,14 @@
+git 操作包括push是不需要代理和翻墙的，只不过访问github可能要翻墙
+你先找个空闲的地方（别在里面搞开发，只丢zip进去，甚至丢你自己的github链接都行，我看到了搞成submodule）git clone https://github.com/1012598167/noname_ext
+
+注意任何时候想写入这个本地仓库时，
+先
+git pull origin main
+然后
+git add *
+git commit -m "合纵抗秦v1.7 更新"（或者类似 "全能搜索d210906更新"）
+
+在任何push之前先
+git pull origin main
+再
+git push origin main
