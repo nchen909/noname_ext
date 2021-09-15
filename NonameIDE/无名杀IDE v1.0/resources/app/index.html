@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<script>
+		const filePathList = localStorage.getItem('editor_filePathList') ? JSON.parse(localStorage.getItem('editor_filePathList')) : []
+		const fs = require('fs');
+		const path = require('path');
+	</script>
+		<script src="monaco-editor/min/vs/loader.js" onload="window.requirex = window.require; window.require = module.require;"></script>
+		<script src="openFile.js"></script>
+		<title>无名杀IDE</title>
+	</head>
+
+	<body bgcolor="#1e1e1e">
+		<div style="background-color: rgb(37, 37, 38);position:absolute;width:100%;height:5%;margin:0;padding:0;left:0%;top:0;overflow: hidden;">
+			<!-- 编辑器上面的选项卡 -->
+			<ul id="editor-tabs"></ul>
+		</div>
+		<!-- <div style="position:absolute;width:15%;height:100%;margin:0;padding:0;left:0;top:0;">
+			编辑器左面的项目管理器 
+		</div> -->
+		<img src="./images/noname.jpg" style="z-index:-1;position:absolute;top:50%;left:50%;transform(-50%,-50%)" />
+		<div id="container" style="position:absolute;width:100%;height:95%;margin:0;padding:0;left:0%;top:5%;"></div>
+		<script type="module">
+		let require = window.requirex;
+		require.config({ paths: { 'vs': __dirname + '/monaco-editor/dev/vs' } });
+		require(['vs/editor/editor.main'], function () {
+			let init = new CustomEvent("editor-init");
+			window.dispatchEvent(init);
+			
+			let openFilePath = localStorage.getItem('editor_filePath');
+			for(let i = 0; i < (filePathList.length || 1); i++) {
+				localStorage.setItem('editor_filePath', filePathList[i] || path.join(__dirname, 'noname', 'extension', 'example.js'))
+				let openFile = new CustomEvent("editor-openFile");
+				window.dispatchEvent(openFile);
+			}
+			if(openFilePath){
+				localStorage.setItem('editor_filePath', openFilePath);
+				let openFile = new CustomEvent("editor-openFile");
+				window.dispatchEvent(openFile);	
+			}
+		});
+	</script>
+		<script type="text/javascript">
+			document.body.addEventListener('drop', e => {
+				//阻止拖拽的默认事件
+				e.preventDefault();
+				e.stopPropagation();
+				//获得拖拽的文件集合
+				let files = e.dataTransfer.files;
+				//没有文件，不往下执行
+				if (!files.length) return;
+				for (let i = 0; i < files.length; i++) {
+					//console.log(files[i]);
+					//文件位置
+					let filePath = files[i].path;
+					//文件名
+					let fileName = path.win32.basename(filePath);
+					//文件后缀名
+					let fileType = path.win32.extname(filePath);
+
+					if (['.js', '.css', '.html', '.htm', '.json', '.ts', '.txt'].includes(fileType) && fs.existsSync(filePath)) {
+						localStorage.setItem('editor_filePath', filePath);
+						localStorage.setItem('editor_fileType', fileType);
+						let openFile = new CustomEvent("editor-openFile", {});
+						window.dispatchEvent(openFile);
+					}
+				}
+			});
+
+			document.body.addEventListener('dragover', (e) => {
+				//阻止拖拽的默认事件
+				e.preventDefault();
+				e.stopPropagation();
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,92 @@
+@font-face {
+	font-family: 'seti';
+	src: url(../font/seti.woff);
+}
+
+#editor-tabs {
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+.tab {
+	text-align: center;
+	color: white;
+	float:left;
+	cursor: pointer;
+	background-color: rgb(30, 30, 30);
+	
+	position: relative;
+	min-width: fit-content;
+	height: 100%;
+	width: 150px;
+	white-space: nowrap;
+	
+	/* display: flex; */
+	
+	/* 
+	padding-left: 10px;
+	left: auto;
+	border-right: 1px solid rgb(37, 37, 38);
+	box-sizing: border-box;
+	padding-left: 10px;
+	min-width: fit-content;
+	flex-shrink: 0; */
+	
+}
+
+.tabSpan {
+	height: 100%;
+	line-height: 200%;
+	padding-right: 10px;
+}
+
+.close {
+	float:right;
+	font-size: 200%;
+	padding: 10px;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	font: normal normal normal 16px/1 codicon;
+}
+
+.icon-default {
+	font-family: 'seti';
+	font-size: 200%;
+	background-size: 16px;
+	background-position: 0;
+	background-repeat: no-repeat;
+	padding-right: 6px;
+	width: 25px;
+	height: 100%;
+	line-height: 100%;
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	vertical-align: top;
+	flex-shrink: 0;
+	overflow: visible;
+	white-space: nowrap;
+}
+
+.icon-default:before {
+	color: #d4d7d6;
+	content: '\E022';
+}
+
+.icon-js:before {
+	color: #cbcb41;
+	content: '\E04F';
+}
+
+.icon-html:before {
+	color: #e37933;
+	content: '\E046';
+}
+
+.icon-css:before {
+	color: #519aba;
+	content: '\E01C';
+}
